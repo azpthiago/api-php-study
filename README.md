@@ -111,7 +111,16 @@ Certifique-se de que `php -m | grep sqlite` retorne `pdo_sqlite` e `sqlite3`.
 
 Todas as respostas seguem o formato:
 
-```
+```json
+{
+  "success": true, // Ou false
+  "data": {
+    "id": 1,
+    "nome": "nome-do-item",
+    "descricao": "descricao-do-item"
+  }
+}
+
 ```
 
 ### 🧪 Exemplos de uso via `curl`
