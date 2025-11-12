@@ -22,8 +22,7 @@ final class Database
     /**
      * Recupera a conexão ativa ou cria uma nova quando necessário.
      */
-    public static function getConnection(): PDO
-    {
+    public static function getConnection(): PDO {
         $databaseDir = __DIR__ . '/../../db';
 
         if (! is_dir($databaseDir)) {
@@ -35,9 +34,6 @@ final class Database
 
             try {
                 self::$connection = new PDO('sqlite:' . $databasePath);
-                self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                self::$connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                self::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             } catch (PDOException $e) {
                 throw new RuntimeException('Erro ao conectar ao banco de dados.', 0, $e);
             }

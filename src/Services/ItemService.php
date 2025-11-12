@@ -13,15 +13,12 @@ use RuntimeException;
  */
 class ItemService
 {
-    public function __construct(private readonly PDO $database)
-    {
-    }
+    public function __construct(private readonly PDO $database) {}
 
     /**
      * Persiste um novo item e retorna o identificador criado.
      */
-    public function create(string $nome, string $descricao): int
-    {
+    public function create(string $nome, string $descricao): int {
         $statement = $this->prepare('INSERT INTO items (nome, descricao) VALUES (:nome, :descricao)');
         $statement->bindValue(':nome', $nome, PDO::PARAM_STR);
         $statement->bindValue(':descricao', $descricao, PDO::PARAM_STR);
@@ -35,8 +32,7 @@ class ItemService
      *
      * @return array<int, array<string, mixed>>
      */
-    public function list(): array
-    {
+    public function list(): array {
         $statement = $this->database->query('SELECT * FROM items ORDER BY created_at DESC');
 
         if ($statement === false) {
@@ -49,8 +45,7 @@ class ItemService
     /**
      * Localiza item por ID, retornando null quando inexistente.
      */
-    public function find(int $id): ?array
-    {
+    public function find(int $id): ?array {
         $statement = $this->prepare('SELECT * FROM items WHERE id = :id');
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->execute();
@@ -62,8 +57,7 @@ class ItemService
     /**
      * Atualiza registros existentes; retorna verdadeiro se algo foi modificado.
      */
-    public function update(int $id, string $nome, string $descricao): bool
-    {
+    public function update(int $id, string $nome, string $descricao): bool {
         $statement = $this->prepare('UPDATE items SET nome = :nome, descricao = :descricao WHERE id = :id');
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->bindValue(':nome', $nome, PDO::PARAM_STR);
@@ -77,8 +71,7 @@ class ItemService
     /**
      * Remove item pelo ID informado.
      */
-    public function delete(int $id): bool
-    {
+    public function delete(int $id): bool {
         $statement = $this->prepare('DELETE FROM items WHERE id = :id');
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->execute();
@@ -89,8 +82,7 @@ class ItemService
     /**
      * Pequeno helper para montar prepared statements com mensagem amigável.
      */
-    private function prepare(string $sql): PDOStatement
-    {
+    private function prepare(string $sql): PDOStatement {
         $statement = $this->database->prepare($sql);
 
         if (! $statement) {
